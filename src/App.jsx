@@ -19,13 +19,15 @@ const surveyJson = {
         {
           type: "text",
           name: "nombre",
-          title: "Nombre"
+          title: "Nombre",
+          isRequired: true
         },
         {
           type: "text",
           name: "edad",
           inputType: "number",
-          title: "Edad"
+          title: "Edad",
+          isRequired: true
         },
         {
           type: "dropdown",
@@ -34,25 +36,39 @@ const surveyJson = {
           "choices": [
             "Masculino",
             "Femenino"
-          ]
+          ],
+          isRequired: true
+        },
+        {
+          type: "dropdown",
+          name: "residencia",
+          title: "Residencia",
+          "choices": [
+            "Lima",
+            "Fuera de Lima"
+          ],
+          isRequired: true
         },
         {
           type: "text",
           name: "celular",
           inputType: "tel",
-          title: "Celular"
+          title: "Celular",
+          isRequired: true
         }, {
           type: "dropdown",
           name: "seguro_de_salud",
           title: "¿Qué seguro de salud tienes?",
           description: "",
           "choices": [
+            "No tengo seguro",
             "SIS",
             "ESSALUD",
             "SALUDPOL / FFAA",
             "EPS",
             "OTRO"
-          ]
+          ],
+          isRequired: true
         }
       ]
     },
@@ -68,11 +84,13 @@ const surveyJson = {
           choices: [
             "Sí",
             "No"
-          ]
+          ],
+          isRequired: true
         }, {
           type: "checkbox",
           name: "objetivos_del_seguro",
           title: "¿Para quiénes estabas buscando un seguro de salud?",
+          description: "(opción multiple)",
           visibleIf: "{busqueda_seguro} = 'Sí'",
           choices: [
             "Para mi",
@@ -80,18 +98,15 @@ const surveyJson = {
             "Mi pareja",
             "Mis hijos",
             "Otros"
-          ]
+          ],
+          isRequired: true
         }, {
-          type: "dropdown",
+          type: "text",
           name: "presupuesto",
-          title: "¿Cuál era tu presupuesto mensual por persona para contratar un seguro de salud?",
+          inputType: "number",
+          title: "¿Cuál era tu presupuesto mensual en soles por persona para contratar un seguro de salud?",
           visibleIf: "{busqueda_seguro} = 'Sí'",
-          choices: [
-            "Hasta 30 soles",
-            "De 31 a 100 soles",
-            "De 101 a 200",
-            "Más de 201 soles"
-          ]
+          isRequired: true
         }
       ]
     },
@@ -109,25 +124,26 @@ const surveyJson = {
           choices: [
             {
               value: "consulta externa",
-              text: "consulta externa"
+              text: "Consulta externa"
             },
             {
               value: "emergencia",
-              text: "emergencia (cualquier malestar que tenga peligro de muerte)"
+              text: "Emergencia (cualquier malestar que tenga peligro de muerte)"
             },
             {
-              value: "urgencias",
-              text: "urgencias (cualquier malestar que no tenga peligro de muerte)"
+              value: "dental",
+              text: "Dental"
             },
             {
               value: "hospitalizacion",
-              text: "hospitalización"
+              text: "Hospitalización"
             },
             {
               value: "maternidad",
-              text: "maternidad en chequeos y parto"
+              text: "Maternidad en chequeos y parto"
             }
-          ]
+          ],
+          isRequired: true
         }, {
           type: "radiogroup",
           name: "cobertura_dispensable",
@@ -142,8 +158,8 @@ const surveyJson = {
               text: "Emergencia (cualquier malestar que tenga peligro de muerte)"
             },
             {
-              value: "urgencias",
-              text: "Urgencias (cualquier malestar que no tenga peligro de muerte)"
+              value: "dental",
+              text: "Dental"
             },
             {
               value: "hospitalizacion",
@@ -153,7 +169,8 @@ const surveyJson = {
               value: "maternidad",
               text: "Maternidad en chequeos y parto"
             }
-          ]
+          ],
+          isRequired: true
         }, {
           type: "checkbox",
           name: "cobertura_externa",
@@ -177,13 +194,14 @@ const surveyJson = {
               value: "procedimientos",
               text: "Que incluya procedimientos (como endoscopía o electrocardiograma)"
             }
-          ]
+          ],
+          isRequired: true
         }
       ]
     },
     {
       name: "pagina5",
-      title: "Estamos por lanzar un seguro de salud. Elige el que mejor se acomode a tus necesidades y, si se concreta en el lanzamiento, te haremos un descuento especial",
+      title: "Estamos por lanzar un seguro de salud con planes desde aproximadamente 60 soles al mes. Elige el que mejor se acomode a tus necesidades y, si este plan se concreta en el lanzamiento, te daremos un descuento especial.",
       description: "(Esta elección no puede cambiarse)",
       elements: [
         {
@@ -201,7 +219,8 @@ const surveyJson = {
           title: "Elige el plan que mejor se acomode a tus necesidades (recuerda que esta elección no podrás cambiarla luego)",
           choices: ["Ninguno", "A", "B", "C", "D"]
         }
-      ]
+      ],
+      isRequired: true
     }
   ]
 };
@@ -209,19 +228,48 @@ const surveyJson = {
 export default function App() {
   const survey = new Model(surveyJson);
 
+
+
+
+  survey.onCurrentPageChanged.add(function (sender, options) {
+    const currentPage = sender.currentPageNo;
+    const totalPages = sender.visiblePageCount;
+
+    if (currentPage === totalPages - 1) {
+      console.log("El usuario llegó a la última página");
+      const tiempoUltimaPagina = Date.now();
+      sender.setValue("tiempo_inicio_ultima_pagina", tiempoUltimaPagina);
+      // aquí puedes hacer algo
+      // ejemplo: enviar evento, mostrar mensaje, bloquear volver, etc.
+    }
+  });
   survey.onComplete.add(async (sender) => {
     const raw = sender.data;
+
+
+    const inicioUltimaPagina = raw.tiempo_inicio_ultima_pagina;
+    const finEncuesta = Date.now();
+
+    let segundosUltimaPagina = null;
+
+    if (inicioUltimaPagina) {
+      segundosUltimaPagina = Math.round(
+        (finEncuesta - inicioUltimaPagina) / 1000
+      );
+    }
+
     const mappedData = {
       nombre: raw.nombre,
       edad: parseInt(raw.edad),
       sexo: raw.sexo,
       celular: raw.celular,
+      residencia: raw.residencia,
       seguro_de_salud: raw.seguro_de_salud,
       busqueda_seguro: raw.busqueda_seguro,
       objetivos_del_seguro: Array.isArray(raw.objetivos_del_seguro)
         ? raw.objetivos_del_seguro
         : [],
-      presupuesto: raw.presupuesto,
+      presupuesto: parseInt(raw.presupuesto),
       cobertura_externa: Array.isArray(raw.cobertura_externa)
         ? raw.cobertura_externa
         : [],
@@ -229,7 +277,8 @@ export default function App() {
         ? raw.cobertura
         : [],
       cobertura_dispensable: raw.cobertura_dispensable,
-      plan: raw.plan
+      plan: raw.plan,
+      delay_seconds_lastpage: segundosUltimaPagina
 
       //payload_json: JSON.stringify(raw),
       //tiene_seguro: raw.tiene_seguro || "",
