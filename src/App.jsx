@@ -109,9 +109,33 @@ const surveyJson = {
       elements: [
         {
           type: "checkbox",
-          name: "ranking",
-          title: "Si tu seguro de salud solo tuviera dos beneficios, ¿cuáles elegirías?",
+          name: "coberturas",
+          title: "Si tu seguro de salud solo tuviera dos coberturas, ¿cuáles elegirías?",
           maxSelectedChoices: 2,
+          choices: [
+            {
+              value: "ambulatoria",
+              text: "Atención ambulatoria (consultas, exámenes, procedimientos, entre otros)"
+            },
+            {
+              value: "emergencias",
+              text: "Atención de emergencias"
+            },
+            {
+              value: "hospitalaria",
+              text: "Atención hospitalaria"
+            },
+            {
+              value: "medicinas",
+              text: "Descuento en medicinas"
+            }
+          ]
+        }, {
+          type: "ranking",
+          name: "consulta_externa",
+          title: "En consulta externa elige las dos coberturas más importantes para ti",
+          //maxSelectedChoices: 2,
+          selectToRankEnabled: true,
           choices: [
             {
               value: "ambulatoria",
@@ -174,8 +198,8 @@ export default function App() {
         ? raw.objetivos_del_seguro
         : [],
       presupuesto: raw.presupuesto,
-      ranking: Array.isArray(raw.ranking)
-        ? raw.ranking
+      coberturas: Array.isArray(raw.coberturas)
+        ? raw.coberturas
         : [],
       plan: raw.plan
 
