@@ -91,7 +91,7 @@ const surveyJson = {
         }, {
           type: "dropdown",
           name: "presupuesto",
-          title: "¿Cuál era tu presupuesto mensual para contratar un seguro de salud?",
+          title: "¿Cuál era tu presupuesto mensual por persona para contratar un seguro de salud?",
           visibleIf: "{busqueda_seguro} = 'Sí'",
           choices: [
             "Hasta 30 soles",
@@ -110,7 +110,7 @@ const surveyJson = {
         {
           type: "ranking",
           name: "ranking",
-          title: "Ordena de más importante a menos importante qué descuentos te gustaría que estén en tu seguro de salud",
+          title: "Ordena, de mayor a menor importancia, los beneficios que te gustaría que incluya tu seguro de salud",
           choices: [
             {
               value: "ambulatoria",
