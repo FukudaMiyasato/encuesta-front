@@ -40,14 +40,7 @@ const surveyJson = {
           type: "text",
           name: "celular",
           inputType: "tel",
-          title: "Celular",
-          validators: [
-            {
-              type: "regex",
-              regex: "^9[0-9]{8}$",
-              text: "Ingresa un celular válido de 9 dígitos"
-            }
-          ]
+          title: "Celular"
         }, {
           type: "dropdown",
           name: "seguro_de_salud",
@@ -104,54 +97,85 @@ const surveyJson = {
     },
     {
       name: "pagina3",
-      title: "Dinámica de priorización",
+      title: "Composición de un seguro ideal",
       description: "Imaginemos que estamos por crear un seguro de salud ideal para ti",
       elements: [
         {
           type: "checkbox",
-          name: "coberturas",
-          title: "Si tu seguro de salud solo tuviera dos coberturas, ¿cuáles elegirías?",
-          maxSelectedChoices: 2,
+          name: "cobertura",
+          title: "Si su seguro solo pudiera tener 3 coberturas cuales elegiría",
+          description: "(máximo 3)",
+          maxSelectedChoices: 3,
           choices: [
             {
-              value: "ambulatoria",
-              text: "Atención ambulatoria (consultas, exámenes, procedimientos, entre otros)"
+              value: "consulta externa",
+              text: "consulta externa"
             },
             {
-              value: "emergencias",
-              text: "Atención de emergencias"
+              value: "emergencia",
+              text: "emergencia (cualquier malestar que tenga peligro de muerte)"
             },
             {
-              value: "hospitalaria",
-              text: "Atención hospitalaria"
+              value: "urgencias",
+              text: "urgencias (cualquier malestar que no tenga peligro de muerte)"
             },
             {
-              value: "medicinas",
-              text: "Descuento en medicinas"
+              value: "hospitalizacion",
+              text: "hospitalización"
+            },
+            {
+              value: "maternidad",
+              text: "maternidad en chequeos y parto"
             }
           ]
         }, {
-          type: "ranking",
-          name: "consulta_externa",
-          title: "En consulta externa elige las dos coberturas más importantes para ti",
-          //maxSelectedChoices: 2,
-          selectToRankEnabled: true,
+          type: "radiogroup",
+          name: "cobertura_dispensable",
+          title: "Si tuvieras que eliminar una cobertura de tu seguro de salud, ¿cuál sería la que menos te afectaría?",
           choices: [
             {
-              value: "ambulatoria",
-              text: "Atención ambulatoria (consultas, exámenes, procedimientos, entre otros)"
+              value: "consulta externa",
+              text: "Consulta externa"
             },
             {
-              value: "emergencias",
-              text: "Atención de emergencias"
+              value: "emergencia",
+              text: "Emergencia (cualquier malestar que tenga peligro de muerte)"
             },
             {
-              value: "hospitalaria",
-              text: "Atención hospitalaria"
+              value: "urgencias",
+              text: "Urgencias (cualquier malestar que no tenga peligro de muerte)"
             },
+            {
+              value: "hospitalizacion",
+              text: "Hospitalización"
+            },
+            {
+              value: "maternidad",
+              text: "Maternidad en chequeos y parto"
+            }
+          ]
+        }, {
+          type: "checkbox",
+          name: "cobertura_externa",
+          title: "Si solo pudieras tener dos beneficios en la cobertura externa de tu seguro de salud, ¿cuáles elegirías?",
+          description: "(máximo 2)",
+          maxSelectedChoices: 2,
+          choices: [
             {
               value: "medicinas",
-              text: "Descuento en medicinas"
+              text: "Que cubra medicinas"
+            },
+            {
+              value: "medicos",
+              text: "Que cubra la consulta con los médicos"
+            },
+            {
+              value: "laboratorioyradiografia",
+              text: "Que cubra laboratorio y radiografías"
+            },
+            {
+              value: "procedimientos",
+              text: "Que incluya procedimientos (como endoscopía o electrocardiograma)"
             }
           ]
         }
@@ -198,9 +222,13 @@ export default function App() {
         ? raw.objetivos_del_seguro
         : [],
       presupuesto: raw.presupuesto,
-      coberturas: Array.isArray(raw.coberturas)
-        ? raw.coberturas
+      cobertura_externa: Array.isArray(raw.cobertura_externa)
+        ? raw.cobertura_externa
         : [],
+      cobertura: Array.isArray(raw.cobertura)
+        ? raw.cobertura
+        : [],
+      cobertura_dispensable: raw.cobertura_dispensable,
       plan: raw.plan
 
       //payload_json: JSON.stringify(raw),
