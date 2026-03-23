@@ -1,17 +1,40 @@
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
+import { surveyLocalization } from "survey-core";
+import "survey-core/survey.i18n";
+
+surveyLocalization.defaultLocale = "es";
 
 const surveyJson = {
-  title: "Encuesta de beneficios de salud",
-  description: "Ayúdanos a entender qué valoras más",
+  title: "Encuesta de seguros de salud",
+  description: "Ayúdanos a entender tu experiencia con los seguros de salud",
+  showProgressBar: "top",
+  progressBarType: "pages",
   pages: [
     {
       name: "pagina1",
+      title: "Datos generales",
+      description: "Cuéntanos sobre ti",
       elements: [
         {
           type: "text",
           name: "nombre",
-          title: "nombre"
+          title: "Nombre"
+        },
+        {
+          type: "text",
+          name: "edad",
+          inputType: "number",
+          title: "Edad"
+        },
+        {
+          type: "dropdown",
+          name: "sexo",
+          title: "Sexo",
+          "choices": [
+            "Masculino",
+            "Femenino"
+          ]
         },
         {
           type: "text",
@@ -25,38 +48,75 @@ const surveyJson = {
               text: "Ingresa un celular válido de 9 dígitos"
             }
           ]
-        },
-        {
-          type: "radiogroup",
-          name: "tienesseguro",
-          title: "¿Tienes un seguro de salud?",
-          "choices": [
-            "Sí",
-            "No"
-          ]
         }, {
-          type: "radiogroup",
-          name: "nombre_seguro",
-          title: "¿Qué seguro tienes?",
-          visibleIf: "{tienesseguro} = 'Sí'",
+          type: "dropdown",
+          name: "seguro_de_salud",
+          title: "¿Qué seguro de salud tienes?",
+          description: "",
           "choices": [
             "SIS",
             "ESSALUD",
+            "SALUDPOL / FFAA",
             "EPS",
-            "PRIVADO",
-            "VIVE+",
             "OTRO"
           ]
         }
       ]
     },
     {
-      "name": "pagina2",
-      "elements": [
+      name: "pagina2",
+      title: "Seguro de salud",
+      description: "Cuéntanos sobre tu experiencia con seguros de salud",
+      elements: [
         {
-          "type": "text",
-          "name": "informacionextra",
-          "title": "¿Cuéntanos que más quieres agregar?"
+          type: "dropdown",
+          name: "busqueda_seguro",
+          title: "¿Anteriormente has buscado contratar un seguro de salud privado?",
+          choices: [
+            "Sí",
+            "No"
+          ]
+        }, {
+          type: "checkbox",
+          name: "objetivos_del_seguro",
+          title: "¿Para quiénes estabas buscando un seguro de salud?",
+          visibleIf: "{busqueda_seguro} = 'Sí'",
+          choices: [
+            "Para mi",
+            "Mis padres",
+            "Mi pareja",
+            "Mis hijos",
+            "Otros"
+          ]
+        }, {
+          type: "dropdown",
+          name: "presupuesto",
+          title: "¿Cuál era tu presupuesto mensual para contratar un seguro de salud?",
+          visibleIf: "{busqueda_seguro} = 'Sí'",
+          choices: [
+            "Hasta 50 soles",
+            "De 51 a 100 soles",
+            "De 101 a 200",
+            "Más de 201 soles"
+          ]
+        }
+      ]
+    },
+    {
+      name: "pagina3",
+      title: "Dinámica de priorización",
+      description: "Imaginemos que estamos por crear un seguro de salud ideal para ti",
+      elements: [
+        {
+          type: "ranking",
+          name: "ranking",
+          title: "Ordena de más importante a menos importante descuentos te gustarían que estén en tu seguro de salud",
+          choices: [
+            "Atención ambulatoria (consultas, exámenes, procedimientos, entre otros)",
+            "Atención de emergencias",
+            "Atención hospitalaria",
+            "Descuento en medicinas"
+          ]
         }
       ]
     }
@@ -71,9 +131,14 @@ export default function App() {
 
     const mappedData = {
       nombre: raw.nombre,
+      edad: parseInt(raw.edad),
+      sexo: raw.sexo,
       celular: raw.celular,
-      tienesseguro: raw.tienesseguro,
-      nombre_seguro: raw.nombre_seguro
+      seguro_de_salud: raw.seguro_de_salud,
+      busqueda_seguro: raw.busqueda_seguro,
+      objetivos_del_seguro: Array.isArray(raw.objetivos_del_seguro) ? raw.objetivos_del_seguro.join(", ") : "",
+      presupuesto: raw.presupuesto
+
       //payload_json: JSON.stringify(raw),
       //tiene_seguro: raw.tiene_seguro || "",
       //beneficios: Array.isArray(raw.beneficios) ? raw.beneficios.join(", ") : "",
@@ -94,6 +159,7 @@ export default function App() {
     const result = await response.json();
     console.log(result);
   });
+  survey.locale = "es";
 
   return <Survey model={survey} />;
 }
