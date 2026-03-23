@@ -108,9 +108,10 @@ const surveyJson = {
       description: "Imaginemos que estamos por crear un seguro de salud ideal para ti",
       elements: [
         {
-          type: "ranking",
+          type: "checkbox",
           name: "ranking",
-          title: "Ordena, de mayor a menor importancia, los beneficios que te gustaría que incluya tu seguro de salud",
+          title: "Si tu seguro de salud solo tuviera dos beneficios, ¿cuáles elegirías?",
+          maxSelectedChoices: 2,
           choices: [
             {
               value: "ambulatoria",
@@ -162,7 +163,6 @@ export default function App() {
 
   survey.onComplete.add(async (sender) => {
     const raw = sender.data;
-    const ranking = raw.ranking || [];
     const mappedData = {
       nombre: raw.nombre,
       edad: parseInt(raw.edad),
@@ -174,10 +174,9 @@ export default function App() {
         ? raw.objetivos_del_seguro
         : [],
       presupuesto: raw.presupuesto,
-      ranking0: ranking[0] || "",
-      ranking1: ranking[1] || "",
-      ranking2: ranking[2] || "",
-      ranking3: ranking[3] || "",
+      ranking: Array.isArray(raw.ranking)
+        ? raw.ranking
+        : [],
       plan: raw.plan
 
       //payload_json: JSON.stringify(raw),
