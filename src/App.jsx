@@ -119,6 +119,29 @@ const surveyJson = {
           ]
         }
       ]
+    },
+    {
+      name: "pagina5",
+      title: "Elección del seguro",
+      description: "¿Qué plan elegirías?",
+      elements: [
+        {
+          type: "html",
+          name: "im_planes",
+          html: `
+              <div>
+                <img src="/planes.png" style="max-width:100%; display:block; margin-bottom:10px;" />
+                ¿¿Qué plan elegirías??
+              </div>
+            `
+        },
+        {
+          type: "dropdown",
+          name: "plan",
+          title: "Selecciona un plan",
+          choices: ["Ninguno", "A", "B", "C", "D"]
+        }
+      ]
     }
   ]
 };
