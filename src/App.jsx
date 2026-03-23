@@ -6,8 +6,8 @@ import "survey-core/survey.i18n";
 surveyLocalization.defaultLocale = "es";
 
 const surveyJson = {
-  title: "Encuesta de seguros de salud",
-  description: "Ayúdanos a entender tu experiencia con los seguros de salud",
+  title: "Encuesta sobre seguros de salud",
+  description: "Ayúdanos a crear el seguro de salud ideal para ti y tus seres queridos",
   showProgressBar: "top",
   progressBarType: "pages",
   pages: [
@@ -40,7 +40,7 @@ const surveyJson = {
           type: "text",
           name: "celular",
           inputType: "tel",
-          title: "celular",
+          title: "Celular",
           validators: [
             {
               type: "regex",
@@ -71,7 +71,7 @@ const surveyJson = {
         {
           type: "dropdown",
           name: "busqueda_seguro",
-          title: "¿Anteriormente has buscado contratar un seguro de salud privado?",
+          title: "¿Has buscado anteriormente contratar un seguro de salud privado?",
           choices: [
             "Sí",
             "No"
@@ -110,7 +110,7 @@ const surveyJson = {
         {
           type: "ranking",
           name: "ranking",
-          title: "Ordena de más importante a menos importante descuentos te gustarían que estén en tu seguro de salud",
+          title: "Ordena de más importante a menos importante qué descuentos te gustaría que estén en tu seguro de salud",
           choices: [
             {
               value: "ambulatoria",
@@ -134,8 +134,8 @@ const surveyJson = {
     },
     {
       name: "pagina5",
-      title: "Elección del seguro",
-      description: "¿Qué plan elegirías?",
+      title: "Estamos por lanzar un seguro de salud. Elige el que mejor se acomode a tus necesidades y, si se concreta en el lanzamiento, te haremos un descuento especial",
+      description: "(Esta elección no puede cambiarse)",
       elements: [
         {
           type: "html",
@@ -143,14 +143,13 @@ const surveyJson = {
           html: `
               <div>
                 <img src="/planes.png" style="max-width:100%; display:block; margin-bottom:10px;" />
-                ¿¿Qué plan elegirías??
               </div>
             `
         },
         {
           type: "dropdown",
           name: "plan",
-          title: "Selecciona un plan",
+          title: "Elige el plan que mejor se acomode a tus necesidades (recuerda que esta elección no podrás cambiarla luego)",
           choices: ["Ninguno", "A", "B", "C", "D"]
         }
       ]
