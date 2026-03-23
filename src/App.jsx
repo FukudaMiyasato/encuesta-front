@@ -71,7 +71,7 @@ const surveyJson = {
         {
           type: "dropdown",
           name: "busqueda_seguro",
-          title: "¿Has buscado anteriormente contratar un seguro de salud privado?",
+          title: "¿En algún momento has intentado contratar un seguro de salud privado?",
           choices: [
             "Sí",
             "No"
