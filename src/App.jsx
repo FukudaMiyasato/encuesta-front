@@ -94,8 +94,8 @@ const surveyJson = {
           title: "¿Cuál era tu presupuesto mensual para contratar un seguro de salud?",
           visibleIf: "{busqueda_seguro} = 'Sí'",
           choices: [
-            "Hasta 50 soles",
-            "De 51 a 100 soles",
+            "Hasta 30 soles",
+            "De 31 a 100 soles",
             "De 101 a 200",
             "Más de 201 soles"
           ]
@@ -112,10 +112,22 @@ const surveyJson = {
           name: "ranking",
           title: "Ordena de más importante a menos importante descuentos te gustarían que estén en tu seguro de salud",
           choices: [
-            "Atención ambulatoria (consultas, exámenes, procedimientos, entre otros)",
-            "Atención de emergencias",
-            "Atención hospitalaria",
-            "Descuento en medicinas"
+            {
+              value: "ambulatoria",
+              text: "Atención ambulatoria (consultas, exámenes, procedimientos, entre otros)"
+            },
+            {
+              value: "emergencias",
+              text: "Atención de emergencias"
+            },
+            {
+              value: "hospitalaria",
+              text: "Atención hospitalaria"
+            },
+            {
+              value: "medicinas",
+              text: "Descuento en medicinas"
+            }
           ]
         }
       ]
@@ -151,7 +163,7 @@ export default function App() {
 
   survey.onComplete.add(async (sender) => {
     const raw = sender.data;
-
+    const ranking = raw.ranking || [];
     const mappedData = {
       nombre: raw.nombre,
       edad: parseInt(raw.edad),
@@ -159,8 +171,15 @@ export default function App() {
       celular: raw.celular,
       seguro_de_salud: raw.seguro_de_salud,
       busqueda_seguro: raw.busqueda_seguro,
-      objetivos_del_seguro: Array.isArray(raw.objetivos_del_seguro) ? raw.objetivos_del_seguro.join(", ") : "",
-      presupuesto: raw.presupuesto
+      objetivos_del_seguro: Array.isArray(raw.objetivos_del_seguro)
+        ? raw.objetivos_del_seguro
+        : [],
+      presupuesto: raw.presupuesto,
+      ranking0: ranking[0] || "",
+      ranking1: ranking[1] || "",
+      ranking2: ranking[2] || "",
+      ranking3: ranking[3] || "",
+      plan: raw.plan
 
       //payload_json: JSON.stringify(raw),
       //tiene_seguro: raw.tiene_seguro || "",
