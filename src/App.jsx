@@ -102,7 +102,7 @@ const surveyJson = {
         }, {
           type: "dropdown",
           name: "clinica_recurrente",
-          title: "Normalmente a qué centro sueles acudir cuando se te presenta un problema de salud",
+          title: "Normalmente, ¿a qué centro acudes cuando se te presenta un problema de salud?",
           description: "",
           "choices": [
             {
@@ -237,7 +237,7 @@ const surveyJson = {
           choices: [
             {
               value: "consulta externa",
-              text: "Consulta externa"
+              text: "Consulta externa (Consulta con el médico (general o especialista) sin hospitalización)"
             },
             {
               value: "emergencia",
@@ -264,7 +264,7 @@ const surveyJson = {
           choices: [
             {
               value: "consulta externa",
-              text: "Consulta externa"
+              text: "Consulta externa (consulta con el médico general o especialista sin hospitalización)"
             },
             {
               value: "emergencia",
