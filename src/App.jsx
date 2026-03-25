@@ -231,7 +231,7 @@ const surveyJson = {
         {
           type: "checkbox",
           name: "cobertura",
-          title: "Si su seguro solo pudiera tener 3 coberturas cuales elegiría",
+          title: "Si su seguro solo pudiera tener 3 coberturas, ¿cuáles elegiría?",
           description: "(máximo 3)",
           maxSelectedChoices: 3,
           choices: [
@@ -276,7 +276,7 @@ const surveyJson = {
             },
             {
               value: "hospitalizacion",
-              text: "Hospitalización"
+              text: "Hospitalización (internamiento en clínica)"
             },
             {
               value: "maternidad",
