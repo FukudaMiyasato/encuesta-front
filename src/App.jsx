@@ -15,11 +15,13 @@ const surveyJson = {
       name: "pagina1",
       title: "Datos generales",
       description: "Cuéntanos sobre ti",
+      colCount: 2,
       elements: [
         {
           type: "text",
           name: "nombre",
-          title: "Nombre",
+          title: "Nombre y apellido",
+          colSpan: 1,
           isRequired: true
         },
         {
@@ -35,17 +37,59 @@ const surveyJson = {
           title: "Sexo",
           "choices": [
             "Masculino",
-            "Femenino"
+            "Femenino",
+            "Otro"
           ],
           isRequired: true
         },
         {
           type: "dropdown",
           name: "residencia",
-          title: "Residencia",
+          title: "Distrito de residencia",
           "choices": [
-            "Lima",
-            "Fuera de Lima"
+            "Ancón",
+            "Ate",
+            "Barranco",
+            "Breña",
+            "Carabayllo",
+            "Cercado de Lima",
+            "Chaclacayo",
+            "Chorrillos",
+            "Cieneguilla",
+            "Comas",
+            "El agustino",
+            "Independencia",
+            "Jesús maría",
+            "La molina",
+            "La victoria",
+            "Lince",
+            "Los olivos",
+            "Lurigancho",
+            "Lurín",
+            "Magdalena del mar",
+            "Miraflores",
+            "Pachacámac",
+            "Pucusana",
+            "Pueblo libre",
+            "Puente piedra",
+            "Punta hermosa",
+            "Punta negra",
+            "Rímac",
+            "San bartolo",
+            "San borja",
+            "San isidro",
+            "San Juan de Lurigancho",
+            "San Juan de Miraflores",
+            "San Luis",
+            "San Martin de Porres",
+            "San Miguel",
+            "Santa Anita",
+            "Santa María del Mar",
+            "Santa Rosa",
+            "Santiago de Surco",
+            "Surquillo",
+            "Villa el Salvador",
+            "Villa Maria del Triunfo"
           ],
           isRequired: true
         },
@@ -56,6 +100,82 @@ const surveyJson = {
           title: "Celular",
           isRequired: true
         }, {
+          type: "dropdown",
+          name: "clinica_recurrente",
+          title: "Normalmente a qué centro sueles acudir cuando se te presenta un problema de salud",
+          description: "",
+          "choices": [
+            {
+              value: "SISOL",
+              text: "SISOL / Hospital de solidaridad"
+            },
+            {
+              value: "APJ",
+              text: "APJ"
+            },
+            {
+              value: "aviva",
+              text: "aviva"
+            },
+            {
+              value: "San Pablo",
+              text: "San Pablo / San Gabriel / Jesús del norte"
+            },
+            {
+              value: "Cayetano Heredia",
+              text: "Clínica Cayetano Heredia"
+            },
+            {
+              value: "Minsa",
+              text: "Minsa o ministeriode salud"
+            },
+            {
+              value: "Otro",
+              text: "Otro"
+            }
+          ],
+          isRequired: true
+        }, {
+          type: "checkbox",
+          name: "motivo_de_visita",
+          title: "¿Cuál suele ser el motivo por el que visita la clínica?",
+          description: "",
+          "choices": [
+            {
+              value: "cronico",
+              text: "Enfermedad crónica (control o seguimiento)"
+            },
+            {
+              value: "emergencia_urgencia",
+              text: "Emergencia o urgencia"
+            },
+            {
+              value: "chequeo_rutina",
+              text: "Chequeo de rutina"
+            },
+            {
+              value: "prevencion",
+              text: "Prevención (vacunas o exámenes)"
+            },
+            {
+              value: "consulta",
+              text: "Consulta por malestar o síntomas"
+            },
+            {
+              value: "otros",
+              text: "Otros motivos"
+            }
+          ],
+          isRequired: true
+        }
+      ]
+    },
+    {
+      name: "pagina2",
+      title: "Seguro de salud",
+      description: "Cuéntanos sobre tu experiencia con seguros de salud",
+      elements: [
+        {
           type: "dropdown",
           name: "seguro_de_salud",
           title: "¿Qué seguro de salud tienes?",
@@ -69,14 +189,7 @@ const surveyJson = {
             "OTRO"
           ],
           isRequired: true
-        }
-      ]
-    },
-    {
-      name: "pagina2",
-      title: "Seguro de salud",
-      description: "Cuéntanos sobre tu experiencia con seguros de salud",
-      elements: [
+        },
         {
           type: "dropdown",
           name: "busqueda_seguro",
@@ -174,8 +287,8 @@ const surveyJson = {
         }, {
           type: "checkbox",
           name: "cobertura_externa",
-          title: "Si solo pudieras tener dos beneficios en la cobertura externa de tu seguro de salud, ¿cuáles elegirías?",
-          description: "(máximo 2)",
+          title: "Si solo pudieras elegir 2 beneficios para atención ambulatoria, ¿cuáles priorizarías?",
+          description: "(Una cobertura ambulatoria es el conjunto de prestaciones de un seguro de salud que cubre atenciones médicas que no requieren hospitalización.)",
           maxSelectedChoices: 2,
           choices: [
             {
@@ -198,29 +311,6 @@ const surveyJson = {
           isRequired: true
         }
       ]
-    },
-    {
-      name: "pagina5",
-      title: "Estamos por lanzar un seguro de salud con planes desde aproximadamente 60 soles al mes. Elige el que mejor se acomode a tus necesidades y, si este plan se concreta en el lanzamiento, te daremos un descuento especial.",
-      description: "(Esta elección no puede cambiarse)",
-      elements: [
-        {
-          type: "html",
-          name: "im_planes",
-          html: `
-              <div>
-                <img src="/planes.png" style="max-width:100%; display:block; margin-bottom:10px;" />
-              </div>
-            `
-        },
-        {
-          type: "dropdown",
-          name: "plan",
-          title: "Elige el plan que mejor se acomode a tus necesidades (recuerda que esta elección no podrás cambiarla luego)",
-          choices: ["Ninguno", "A", "B", "C", "D"]
-        }
-      ],
-      isRequired: true
     }
   ]
 };
@@ -235,28 +325,11 @@ export default function App() {
     const currentPage = sender.currentPageNo;
     const totalPages = sender.visiblePageCount;
 
-    if (currentPage === totalPages - 1) {
-      console.log("El usuario llegó a la última página");
-      const tiempoUltimaPagina = Date.now();
-      sender.setValue("tiempo_inicio_ultima_pagina", tiempoUltimaPagina);
-      // aquí puedes hacer algo
-      // ejemplo: enviar evento, mostrar mensaje, bloquear volver, etc.
-    }
+
   });
   survey.onComplete.add(async (sender) => {
     const raw = sender.data;
 
-
-    const inicioUltimaPagina = raw.tiempo_inicio_ultima_pagina;
-    const finEncuesta = Date.now();
-
-    let segundosUltimaPagina = null;
-
-    if (inicioUltimaPagina) {
-      segundosUltimaPagina = Math.round(
-        (finEncuesta - inicioUltimaPagina) / 1000
-      );
-    }
 
     const mappedData = {
       nombre: raw.nombre,
@@ -277,8 +350,10 @@ export default function App() {
         ? raw.cobertura
         : [],
       cobertura_dispensable: raw.cobertura_dispensable,
-      plan: raw.plan,
-      delay_seconds_lastpage: segundosUltimaPagina
+      clinica_recurrente: raw.clinica_recurrente,
+      motivo_de_visita: Array.isArray(raw.motivo_de_visita)
+        ? raw.motivo_de_visita
+        : [],
 
       //payload_json: JSON.stringify(raw),
       //tiene_seguro: raw.tiene_seguro || "",
