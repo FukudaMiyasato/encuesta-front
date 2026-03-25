@@ -130,6 +130,10 @@ const surveyJson = {
               text: "Minsa o ministeriode salud"
             },
             {
+              value: "ESSALUD",
+              text: "ESSALUD"
+            },
+            {
               value: "Otro",
               text: "Otro"
             }
