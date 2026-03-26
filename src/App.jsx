@@ -2,8 +2,11 @@ import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import { surveyLocalization } from "survey-core";
 import "survey-core/survey.i18n";
+import { useMemo } from "react";
 
 surveyLocalization.defaultLocale = "es";
+
+
 
 const surveyJson = {
   title: "Encuesta sobre seguros de salud",
@@ -192,7 +195,7 @@ const surveyJson = {
           description: "(opción multiple)",
           visibleIf: "{busqueda_seguro} = 'Sí'",
           choices: [
-            "Para mi",
+            "Para mí",
             "Mis padres",
             "Mi pareja",
             "Mis hijos",
@@ -302,66 +305,63 @@ const surveyJson = {
 };
 
 export default function App() {
-  const survey = new Model(surveyJson);
+  const grupo = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("grupo") || "sin_grupo";
+  }, []);
 
+  const survey = useMemo(() => {
+    const model = new Model(surveyJson);
 
+    // opcional: guardarlo también dentro de SurveyJS
+    model.setValue("grupo_oculto", grupo);
 
+    model.onComplete.add(async (sender) => {
+      const raw = sender.data;
 
-  survey.onCurrentPageChanged.add(function (sender, options) {
-    const currentPage = sender.currentPageNo;
-    const totalPages = sender.visiblePageCount;
+      const mappedData = {
+        nombre: raw.nombre,
+        edad: raw.edad ? parseInt(raw.edad) : null,
+        sexo: raw.sexo,
+        celular: raw.celular,
+        residencia: raw.residencia,
+        seguro_de_salud: raw.seguro_de_salud,
+        busqueda_seguro: raw.busqueda_seguro,
+        objetivos_del_seguro: Array.isArray(raw.objetivos_del_seguro)
+          ? raw.objetivos_del_seguro
+          : [],
+        presupuesto: raw.presupuesto ? parseInt(raw.presupuesto) : null,
+        cobertura_externa: Array.isArray(raw.cobertura_externa)
+          ? raw.cobertura_externa
+          : [],
+        cobertura: Array.isArray(raw.cobertura)
+          ? raw.cobertura
+          : [],
+        cobertura_dispensable: raw.cobertura_dispensable,
+        clinica_recurrente: raw.clinica_recurrente,
+        motivo_de_visita: Array.isArray(raw.motivo_de_visita)
+          ? raw.motivo_de_visita
+          : [],
+        grupo_oculto: grupo
+      };
 
+      const response = await fetch("https://encuesta-api-1pl0.onrender.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          data: mappedData
+        })
+      });
 
-  });
-  survey.onComplete.add(async (sender) => {
-    const raw = sender.data;
-
-
-    const mappedData = {
-      nombre: raw.nombre,
-      edad: parseInt(raw.edad),
-      sexo: raw.sexo,
-      celular: raw.celular,
-      residencia: raw.residencia,
-      seguro_de_salud: raw.seguro_de_salud,
-      busqueda_seguro: raw.busqueda_seguro,
-      objetivos_del_seguro: Array.isArray(raw.objetivos_del_seguro)
-        ? raw.objetivos_del_seguro
-        : [],
-      presupuesto: parseInt(raw.presupuesto),
-      cobertura_externa: Array.isArray(raw.cobertura_externa)
-        ? raw.cobertura_externa
-        : [],
-      cobertura: Array.isArray(raw.cobertura)
-        ? raw.cobertura
-        : [],
-      cobertura_dispensable: raw.cobertura_dispensable,
-      clinica_recurrente: raw.clinica_recurrente,
-      motivo_de_visita: Array.isArray(raw.motivo_de_visita)
-        ? raw.motivo_de_visita
-        : [],
-
-      //payload_json: JSON.stringify(raw),
-      //tiene_seguro: raw.tiene_seguro || "",
-      //beneficios: Array.isArray(raw.beneficios) ? raw.beneficios.join(", ") : "",
-      //preferencia_clinica: raw.preferencia_clinica || "",
-      //extra: raw.extra || ""
-    };
-
-    const response = await fetch("https://encuesta-api-1pl0.onrender.com/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        data: mappedData
-      })
+      const result = await response.json();
+      console.log(result);
     });
 
-    const result = await response.json();
-    console.log(result);
-  });
-  survey.locale = "es";
+    model.locale = "es";
+    return model;
+  }, [grupo]);
 
   return <Survey model={survey} />;
 }
