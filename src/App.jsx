@@ -182,7 +182,7 @@ const surveyJson = {
         {
           type: "dropdown",
           name: "busqueda_seguro",
-          title: "¿En algún momento has intentado contratar un seguro de salud privado?",
+          title: "¿En algún momento has intentado o buscado contratar un seguro de salud privado?",
           choices: [
             "Sí",
             "No"
@@ -249,7 +249,7 @@ const surveyJson = {
         }, {
           type: "radiogroup",
           name: "cobertura_dispensable",
-          title: "Si tuvieras que eliminar una cobertura de tu seguro de salud, ¿cuál sería la que menos te afectaría?",
+          title: "Si tuvieras que ELIMINAR una cobertura de tu seguro de salud, ¿cuál sería la que MENOS te afectaría?",
           choices: [
             {
               value: "consulta externa",
@@ -298,6 +298,49 @@ const surveyJson = {
             }
           ],
           isRequired: true
+        }, {
+          type: "checkbox",
+          name: "beneficio_extra",
+          title: "Pensando en beneficios adicionales, ¿en cuál de las siguientes empresas le gustaría recibir descuentos como parte de su seguro de salud?",
+          description: "(máximo 2)",
+          maxSelectedChoices: 2,
+          choices: [
+            {
+              value: "farmacias",
+              text: "Farmacias"
+            }, {
+              value: "supermercados",
+              text: "Supermercados"
+            }, {
+              value: "gimnasio",
+              text: "Gimnasio"
+            }, {
+              value: "comidarapida",
+              text: "Restaurantes de comida rápida"
+            }, {
+              value: "opticas",
+              text: "Ópticas (lentes)"
+            }, {
+              value: "appsdebienestarydeporte",
+              text: "Apps de bienestar y deporte"
+            }, {
+              value: "cineplanet",
+              text: "Cineplanet (cines)"
+            }, {
+              value: "utp",
+              text: "UTP (Universidades)"
+            }, {
+              value: "innova",
+              text: "Innova Schools (Colegios)"
+            }, {
+              value: "zegelidat",
+              text: "Zegel/Idat (Institutos)"
+            }, {
+              value: "otro",
+              text: "Otro"
+            }
+          ],
+          isRequired: true
         }
       ]
     }
@@ -342,7 +385,10 @@ export default function App() {
         motivo_de_visita: Array.isArray(raw.motivo_de_visita)
           ? raw.motivo_de_visita
           : [],
-        grupo_oculto: grupo
+        grupo_oculto: grupo,
+        beneficio_extra: Array.isArray(raw.beneficio_extra)
+          ? raw.beneficio_extra
+          : []
       };
 
       const response = await fetch("https://encuesta-api-1pl0.onrender.com/submit", {
