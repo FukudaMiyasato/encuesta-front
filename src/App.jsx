@@ -81,7 +81,7 @@ const surveyJson = {
         {
           type: "text",
           name: "correo",
-          title: "correo",
+          title: "Correo",
           description: "(Si resulta ganador, utilizaremos este correo para comunicarnos con usted)",
           isRequired: true
         }, {
