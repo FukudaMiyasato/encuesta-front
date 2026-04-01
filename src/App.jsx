@@ -80,9 +80,9 @@ const surveyJson = {
         },
         {
           type: "text",
-          name: "celular",
-          inputType: "tel",
-          title: "Celular",
+          name: "correo",
+          title: "correo",
+          description: "(Si resulta ganador, utilizaremos este correo para comunicarnos con usted)",
           isRequired: true
         }, {
           type: "dropdown",
@@ -366,7 +366,7 @@ export default function App() {
         nombre: raw.nombre,
         edad: raw.edad ? parseInt(raw.edad) : null,
         sexo: raw.sexo,
-        celular: raw.celular,
+        correo: raw.correo,
         residencia: raw.residencia,
         seguro_de_salud: raw.seguro_de_salud,
         busqueda_seguro: raw.busqueda_seguro,
