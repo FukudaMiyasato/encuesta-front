@@ -129,6 +129,7 @@ const surveyJson = {
           name: "motivo_de_visita",
           title: "¿Cuál suele ser el motivo por el que visita la clínica?",
           description: "",
+          choicesOrder: "random",
           "choices": [
             {
               value: "cronico",
@@ -182,7 +183,7 @@ const surveyJson = {
         {
           type: "dropdown",
           name: "busqueda_seguro",
-          title: "¿En algún momento has intentado o buscado contratar un seguro de salud privado?",
+          title: "¿En algún momento has intentado o buscado contratar un seguro de salud privado de forma activa?",
           choices: [
             "Sí",
             "No"
@@ -191,7 +192,7 @@ const surveyJson = {
         }, {
           type: "checkbox",
           name: "objetivos_del_seguro",
-          title: "¿Para quiénes estabas buscando un seguro de salud?",
+          title: "¿Para quiénes estabas o estás buscando un seguro de salud?",
           description: "(opción multiple)",
           visibleIf: "{busqueda_seguro} = 'Sí'",
           choices: [
@@ -209,6 +210,18 @@ const surveyJson = {
           title: "¿Cuál era tu presupuesto mensual en soles por persona para contratar un seguro de salud?",
           visibleIf: "{busqueda_seguro} = 'Sí'",
           isRequired: true
+        }, {
+          type: "text",
+          name: "motivono",
+          title: "¿Por qué de momento nunca has buscado de forma activa un seguro de salud privado?",
+          visibleIf: "{busqueda_seguro} = 'No'",
+          isRequired: true
+        }, {
+          type: "text",
+          name: "incentivono",
+          title: "¿Qué tendría que tener para que te interese uno?",
+          visibleIf: "{busqueda_seguro} = 'No'",
+          isRequired: true
         }
       ]
     },
@@ -223,6 +236,7 @@ const surveyJson = {
           title: "Si su seguro solo pudiera tener 3 coberturas, ¿cuáles elegiría?",
           description: "(máximo 3)",
           maxSelectedChoices: 3,
+          choicesOrder: "random",
           choices: [
             {
               value: "consulta externa",
@@ -249,6 +263,7 @@ const surveyJson = {
         }, {
           type: "radiogroup",
           name: "cobertura_dispensable",
+          choicesOrder: "random",
           title: "Si tuvieras que ELIMINAR una cobertura de tu seguro de salud, ¿cuál sería la que MENOS te afectaría?",
           choices: [
             {
@@ -279,6 +294,7 @@ const surveyJson = {
           title: "Si solo pudieras elegir 2 beneficios para atención ambulatoria, ¿cuáles priorizarías?",
           description: "(Una cobertura ambulatoria es el conjunto de prestaciones de un seguro de salud que cubre atenciones médicas que no requieren hospitalización.)",
           maxSelectedChoices: 2,
+          choicesOrder: "random",
           choices: [
             {
               value: "medicinas",
@@ -304,6 +320,7 @@ const surveyJson = {
           title: "Pensando en beneficios adicionales, ¿en cuál de las siguientes empresas le gustaría recibir descuentos como parte de su seguro de salud?",
           description: "(máximo 2)",
           maxSelectedChoices: 2,
+          choicesOrder: "random",
           choices: [
             {
               value: "farmacias",
@@ -386,6 +403,8 @@ export default function App() {
           ? raw.motivo_de_visita
           : [],
         grupo_oculto: grupo,
+        motivono: raw.motivono,
+        incentivono: raw.incentivono,
         beneficio_extra: Array.isArray(raw.beneficio_extra)
           ? raw.beneficio_extra
           : []
