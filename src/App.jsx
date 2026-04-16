@@ -96,7 +96,7 @@ const surveyJson = {
             },
             {
               value: "APJ",
-              text: "APJ"
+              text: "Clínica Centenario Peruano Japonesa"
             },
             {
               value: "aviva",
@@ -140,12 +140,8 @@ const surveyJson = {
               text: "Emergencia o urgencia"
             },
             {
-              value: "chequeo_rutina",
-              text: "Chequeo de rutina"
-            },
-            {
               value: "prevencion",
-              text: "Prevención (vacunas o exámenes)"
+              text: "Prevención (vacunas, chequeos o exámenes)"
             },
             {
               value: "consulta",
@@ -166,16 +162,17 @@ const surveyJson = {
       description: "Cuéntanos sobre tu experiencia con seguros de salud",
       elements: [
         {
-          type: "dropdown",
+          type: "checkbox",
           name: "seguro_de_salud",
           title: "¿Qué seguro de salud tienes?",
-          description: "",
+          description: "(opción multiple)",
           "choices": [
             "No tengo seguro",
             "SIS",
             "ESSALUD",
             "SALUDPOL / FFAA",
             "EPS",
+            "Seguro privado",
             "OTRO"
           ],
           isRequired: true
@@ -385,7 +382,9 @@ export default function App() {
         sexo: raw.sexo,
         correo: raw.correo,
         residencia: raw.residencia,
-        seguro_de_salud: raw.seguro_de_salud,
+        seguro_de_salud: Array.isArray(raw.seguro_de_salud)
+          ? raw.seguro_de_salud
+          : [],
         busqueda_seguro: raw.busqueda_seguro,
         objetivos_del_seguro: Array.isArray(raw.objetivos_del_seguro)
           ? raw.objetivos_del_seguro
