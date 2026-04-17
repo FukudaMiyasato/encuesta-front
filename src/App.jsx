@@ -404,6 +404,7 @@ export default function App() {
         grupo_oculto: grupo,
         motivono: raw.motivono,
         incentivono: raw.incentivono,
+        twomaxchoise: true,
         beneficio_extra: Array.isArray(raw.beneficio_extra)
           ? raw.beneficio_extra
           : []
