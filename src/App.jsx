@@ -230,9 +230,9 @@ const surveyJson = {
         {
           type: "checkbox",
           name: "cobertura",
-          title: "Si su seguro solo pudiera tener 3 coberturas, ¿cuáles elegiría?",
-          description: "(máximo 3)",
-          maxSelectedChoices: 3,
+          title: "Si su seguro solo pudiera tener 2 coberturas, ¿cuáles elegiría?",
+          description: "(máximo 2)",
+          maxSelectedChoices: 2,
           choicesOrder: "random",
           choices: [
             {
